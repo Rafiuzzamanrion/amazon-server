@@ -99,7 +99,6 @@ async function run() {
   // -------------- load specific users cart -----------------
   app.get('/carts',async(req,res)=> {
     const email = req.query.email;
-    console.log(email)
     const query = {email: email};
     const result = await cartCollection.find(query).toArray();
     res.send(result);
