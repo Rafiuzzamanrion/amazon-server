@@ -95,15 +95,11 @@ async function run() {
     res.send(result);
   });
 
-  // ---------- load all carts from database ---------------
-  app.get('/allCarts',async(req,res) => {
-    const result = await cartCollection.find().toArray();
-    res.send(result);
-  });
 
   // -------------- load specific users cart -----------------
-  app.get('/usersCart',async(req,res)=> {
-    const email = req.body.email;
+  app.get('/carts',async(req,res)=> {
+    const email = req.query.email;
+    console.log(email)
     const query = {email: email};
     const result = await cartCollection.find(query).toArray();
     res.send(result);
