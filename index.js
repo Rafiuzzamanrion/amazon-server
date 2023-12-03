@@ -102,6 +102,16 @@ async function run() {
     const query = {email: email};
     const result = await cartCollection.find(query).toArray();
     res.send(result);
+  });
+
+  // --------------- delete a cart item from carts -----------------
+  app.delete('/deleteCart',async(req,res) => {
+    const id = req.query.id;
+    const query = {_id : new ObjectId(id)};
+    const result = await cartCollection.deleteOne(query);
+    console.log(result,query)
+    
+    res.send(result);
   })
 
 
