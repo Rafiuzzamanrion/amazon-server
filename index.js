@@ -70,7 +70,25 @@ async function run() {
       }
       const result = await usersCollection.insertOne(users)
       res.send(result);
+    });
+
+    // --------------- Admin collection ---------------
+    // ------------- get admin -----------------
+    app.get('/isAdmin', async(req,res) => {
+      const email = req.query.email;
+     
+      if(!email) {
+        return res.send('user not founded')
+      }
+      const query = {email : email};
+      const user = await usersCollection.findOne(query);
+     
+      if(user?.role === 'admin'){
+        res.send(true)
+      }
+      else{res.send(false)}
     })
+
 
   //  -------------- reviews collection -------------------
   app.get('/reviews',async(req,res)=> {
@@ -83,7 +101,7 @@ async function run() {
     const review = req.body;
     const result = await reviewsCollection.insertOne(review);
     res.send(result);
-  })
+  });
 
  
 
@@ -109,10 +127,10 @@ async function run() {
     const id = req.query.id;
     const query = {_id : new ObjectId(id)};
     const result = await cartCollection.deleteOne(query);
-    console.log(result,query)
+   
     
     res.send(result);
-  })
+  });
 
 
 
@@ -155,4 +173,4 @@ app.get('/',(req,res)=>{
 
 app.listen(port,()=>{
     console.log(`amazon is running on the port: ${port}`)
-})
+});
