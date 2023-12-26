@@ -72,6 +72,33 @@ async function run() {
       res.send(result);
     });
 
+    //------------------ load all users ------------------
+    app.get('/allUsers',async(req,res) => {
+      const result = await usersCollection.find().toArray();
+      res.send(result)
+    });
+
+    // ------------- delete user -----------------
+    app.delete('/deleteUser',async(req,res)=> {
+      const id = req.query.id;
+      const query = {_id : new ObjectId(id)}
+      const result = await usersCollection.deleteOne(query);
+      res.send(result);
+    });
+    
+    // ------------ update user --------------
+    app.patch('/updateUser',async(req,res)=> {
+      const id = req.query.id;
+      const query = {_id : new ObjectId(id)};
+      const updateDoc = {
+        $set: {
+          role: `admin`
+        },
+      };
+      const result = await usersCollection.updateOne(query,updateDoc);
+      res.send(result)
+    });
+
     // --------------- Admin collection ---------------
     // ------------- get admin -----------------
     app.get('/isAdmin', async(req,res) => {
