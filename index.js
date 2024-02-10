@@ -190,7 +190,7 @@ async function run() {
 
   app.post('/postPayment', async(req,res)=> {
     const paymentData = req.body;
-    const {name,time,amount,email,number,postcode,currency,address} = paymentData;
+    const {name,time,amount,email,number,postcode,currency,address,quantity} = paymentData;
     const trans_id = new ObjectId().toString();
     const data = {
       total_amount: paymentData?.amount,
@@ -234,6 +234,7 @@ console.log(data)
         email:email,
         time:time,
         amount:amount,
+        quantity:quantity,
         number:number,
         postcode:postcode,
         currency:currency,
@@ -278,6 +279,11 @@ res.redirect(`http://localhost:5173/payment/failed/${req.params.tranId}`)
     const email = req.query.email;
     const data = await paymentCollection.find()
     const query = {email : email};
+    const result = await paymentCollection.find().toArray();
+    res.send(result);
+  });
+
+  app.get('/allPayments', async(req,res)=> {
     const result = await paymentCollection.find().toArray();
     res.send(result);
   })
